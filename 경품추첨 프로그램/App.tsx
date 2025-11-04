@@ -432,7 +432,7 @@ const App: React.FC = () => {
                                                 {DRAW_OPTIONS.map(count => {
                                                     const drawButtonColor = selectedPrizeIndex !== -1 ? DRAW_BUTTON_COLORS[selectedPrizeIndex % DRAW_BUTTON_COLORS.length] : 'bg-gray-300';
                                                     return (
-                                                         <button key={count} onClick={() => handleDraw(count)} disabled={!canDraw || isDrawing} className={`p-2 text-white font-bold rounded-lg transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed ${drawButtonColor}`}>
+                                                         <button key={count} onClick={() => handleDraw(count)} disabled={!canDraw || isDrawing} className={`p-2 text-white font-bold text-xl rounded-lg transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed ${drawButtonColor}`}>
                                                             {count}개 뽑기
                                                         </button>
                                                     )
