@@ -1,5 +1,5 @@
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 
 // --- Configuration ---
 const INITIAL_PRIZES_CONFIG = [
@@ -566,28 +566,30 @@ const App: React.FC = () => {
             {/* Winner Announcement Modal */}
             {lastDrawnWinners.length > 0 && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={closeModal}>
-                    <div className="relative bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full transform transition-all animate-in fade-in-0 zoom-in-90 duration-300 overflow-hidden" onClick={(e) => e.stopPropagation()}>
+                    <div className="relative bg-white rounded-3xl shadow-2xl p-6 max-w-4xl w-full transform transition-all animate-in fade-in-0 zoom-in-90 duration-300 overflow-hidden" onClick={(e) => e.stopPropagation()}>
                         <Confetti />
-                        <h2 className="text-4xl text-center font-black text-pink-500 mb-6 z-10 relative">🎉 축하합니다! 🎉</h2>
+                        <h2 className="text-4xl text-center font-black text-pink-500 mb-4 z-10 relative">🎉 축하합니다! 🎉</h2>
                         
-                        {lastDrawnWinners.length === 1 ? (
-                            <div className="flex items-center justify-center z-10 relative">
-                                <div className={`font-black text-8xl w-48 h-48 flex items-center justify-center rounded-full shadow-lg ${winnerModalColorClass}`}>
-                                    {lastDrawnWinners[0]}
-                                </div>
-                            </div>
-                        ) : (
-                            <div className="z-10 relative">
-                                <h3 className="text-2xl text-center font-bold mb-4 text-gray-700">{lastDrawnWinners.length}명 당첨!</h3>
-                                <div className="grid grid-cols-4 sm:grid-cols-5 gap-3 max-h-48 overflow-y-auto p-2 bg-gray-100 rounded-lg">
-                                    {lastDrawnWinners.map(winner => (
-                                        <div key={winner} className={`flex items-center justify-center text-xl font-bold h-12 rounded-lg shadow-sm ${winnerModalColorClass}`}>
+                        <div className="flex flex-col items-center justify-center z-10 relative">
+                            <div className="flex flex-wrap justify-center items-center gap-6 p-6 min-h-[15rem]">
+                                {lastDrawnWinners.length === 1 ? (
+                                    <div
+                                        className={`font-black text-9xl w-56 h-56 flex items-center justify-center rounded-full shadow-lg ${winnerModalColorClass} animate-jiggle`}
+                                    >
+                                        {lastDrawnWinners[0]}
+                                    </div>
+                                ) : (
+                                    lastDrawnWinners.map((winner) => (
+                                        <div
+                                            key={winner}
+                                            className={`font-bold text-6xl w-36 h-36 flex items-center justify-center rounded-full shadow-lg ${winnerModalColorClass} animate-jiggle`}
+                                        >
                                             {winner}
                                         </div>
-                                    ))}
-                                </div>
+                                    ))
+                                )}
                             </div>
-                        )}
+                        </div>
 
                          <button onClick={closeModal} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-20">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
