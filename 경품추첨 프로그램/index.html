@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>경품추첨 프로그램</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Yeon+Sung&display=swap" rel="stylesheet">
+    <style>
+      @keyframes gradient-animation {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+      body {
+        font-family: 'Noto Sans KR', sans-serif;
+        background: linear-gradient(-45deg, #fce4ec, #e3f2fd, #e8eaf6, #f3e5f5);
+        background-size: 400% 400%;
+        animation: gradient-animation 20s ease infinite;
+      }
+      .font-gaegu {
+        font-family: 'Gaegu', cursive;
+      }
+      .font-yeon-sung {
+        font-family: 'Yeon Sung', cursive;
+      }
+      
+      /* --- Start Shake Animation --- */
+      @keyframes shake {
+        0%, 100% { transform: translate(0, 0) rotate(0); }
+        10% { transform: translate(-2px, -3px) rotate(-2deg); }
+        20% { transform: translate(3px, 0px) rotate(2deg); }
+        30% { transform: translate(-4px, 3px) rotate(0deg); }
+        40% { transform: translate(4px, -2px) rotate(-2deg); }
+        50% { transform: translate(-2px, 4px) rotate(2deg); }
+        60% { transform: translate(3px, -3px) rotate(0deg); }
+        70% { transform: translate(-4px, 2px) rotate(-2deg); }
+        80% { transform: translate(2px, -4px) rotate(2deg); }
+        90% { transform: translate(-3px, 3px) rotate(0deg); }
+      }
+
+      .animate-shake {
+        animation: shake 0.4s linear infinite;
+      }
+      /* --- End Shake Animation --- */
+      
+      /* --- Start Slow Bounce Animation --- */
+      @keyframes bounce-slow {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-5px);
+        }
+      }
+
+      .animate-bounce-slow {
+          animation: bounce-slow 3s ease-in-out infinite;
+      }
+      /* --- End Slow Bounce Animation --- */
+
+      /* --- Start Confetti Animation --- */
+      .confetti {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+        overflow: hidden;
+      }
+
+      .confetti-piece {
+        position: absolute;
+        width: 10px;
+        height: 20px;
+        background: #f00;
+        top: -20px;
+        opacity: 0;
+        animation: confetti-fall 4s linear forwards;
+      }
+
+      @keyframes confetti-fall {
+        0% {
+          transform: translateY(0) rotateZ(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(120vh) rotateZ(720deg);
+          opacity: 0;
+        }
+      }
+      /* --- End Confetti Animation --- */
+
+      /* --- Start Fly Out Animation --- */
+      @keyframes fly-out {
+        0% {
+          transform: translateY(0) rotate(0deg) scale(0.5);
+          opacity: 1;
+        }
+        30% {
+          transform: translateY(-120px) rotate(-15deg) scale(1);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-350px) rotate(45deg) scale(0);
+          opacity: 0;
+        }
+      }
+
+      .animate-fly-out {
+        animation: fly-out 1s ease-in forwards;
+      }
+      /* --- End Fly Out Animation --- */
+      
+      /* --- Start Jiggle Animation --- */
+      @keyframes jiggle {
+        0%, 100% { transform: rotate(0deg) scale(1); }
+        25% { transform: rotate(-8deg) scale(1.1); }
+        50% { transform: rotate(8deg) scale(1.1); }
+        75% { transform: rotate(-4deg) scale(1.05); }
+      }
+
+      .animate-jiggle {
+        animation: jiggle 0.5s ease-in-out;
+        transform-origin: bottom center;
+      }
+      /* --- End Jiggle Animation --- */
+      
+      /* --- Start Heart Animation --- */
+      @keyframes fly-heart {
+        0% {
+          transform: translateY(0) scale(0);
+          opacity: 1;
+        }
+        50% {
+          transform: translateY(-80px) scale(1.2);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-200px) scale(0.5);
+          opacity: 0;
+        }
+      }
+
+      .animate-fly-heart {
+        animation: fly-heart 0.7s ease-out forwards;
+      }
+      /* --- End Heart Animation --- */
+
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body>
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
