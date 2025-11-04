@@ -210,28 +210,34 @@ const App: React.FC = () => {
         }, 1000);
     }, [isDrawing, prizes, participants, handleBearClick]);
     
-    const handleInvalidateWinner = useCallback((prizeId: number, winnerId: number) => {
+    const handleToggleWinnerValidity = useCallback((prizeId: number, winnerId: number) => {
         if (isDrawing) return;
     
-        setPrizes(currentPrizes => currentPrizes.map(p => {
-            if (p.id !== prizeId) return p;
+        setPrizes(currentPrizes => {
+            return currentPrizes.map(p => {
+                if (p.id !== prizeId) {
+                    return p;
+                }
     
-            const winnerToToggle = p.winners.find(w => w.id === winnerId);
-            if (!winnerToToggle) return p;
+                const winnerToToggle = p.winners.find(w => w.id === winnerId);
     
-            // If winner has been invalidated AND replaced via redraw, it cannot be toggled.
-            // The button in the UI is also disabled for this case.
-            if (winnerToToggle.invalidated && winnerToToggle.redrawn) {
-                return p;
-            }
+                if (!winnerToToggle) {
+                    return p;
+                }
     
-            // Standard toggle for any other winner (including those from a redraw).
-            const updatedWinners = p.winners.map(w =>
-                w.id === winnerId ? { ...w, invalidated: !w.invalidated } : w
-            );
-            
-            return { ...p, winners: updatedWinners };
-        }));
+                // A winner that was invalidated AND replaced via redraw cannot be re-validated.
+                if (winnerToToggle.invalidated && winnerToToggle.redrawn) {
+                    return p;
+                }
+    
+                // For any other winner, toggle their 'invalidated' status.
+                const updatedWinners = p.winners.map(w =>
+                    w.id === winnerId ? { ...w, invalidated: !w.invalidated } : w
+                );
+                
+                return { ...p, winners: updatedWinners };
+            });
+        });
     }, [isDrawing]);
 
     const handleTogglePrizeEdit = () => {
@@ -489,25 +495,64 @@ const App: React.FC = () => {
                         </div>
                         <div className="flex-grow overflow-y-auto pr-2">
                              {winnersWithColor.length > 0 ? (
-                                <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2">
-                                    {winnersWithColor.map(({id, color, invalidated, prizeId, redrawn, fromRedraw}) => (
-                                        <button 
-                                            key={id} 
-                                            onClick={() => handleInvalidateWinner(prizeId, id)}
-                                            disabled={isDrawing || (invalidated && redrawn)}
-                                            className={`relative flex flex-col items-center justify-center text-3xl lg:text-4xl font-bold h-16 lg:h-20 rounded-full shadow-sm transition-all ${color} ${invalidated ? 'opacity-40' : 'hover:scale-105 active:scale-95'} disabled:cursor-not-allowed`}
-                                            aria-label={`Winner ${id}, prize ${prizeId}. Click to toggle validity.`}
-                                        >
-                                            {fromRedraw && <span className="text-xs font-black leading-none -mb-1 text-white" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.7)' }}>재추첨</span>}
-                                            <span>{id}</span>
-                                            {invalidated && (
-                                                <span className="absolute inset-0 flex items-center justify-center text-red-600 font-black text-6xl lg:text-7xl" aria-hidden="true">
-                                                    X
-                                                </span>
+                                (() => {
+                                    const validWinners = winnersWithColor.filter(w => !w.invalidated);
+                                    const invalidatedWinners = winnersWithColor.filter(w => w.invalidated);
+                        
+                                    return (
+                                        <>
+                                            {/* Valid Winners Grid */}
+                                            {validWinners.length > 0 ? (
+                                                <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2">
+                                                    {validWinners.map(({id, color, prizeId, fromRedraw}) => (
+                                                        <button 
+                                                            key={id} 
+                                                            onClick={() => handleToggleWinnerValidity(prizeId, id)}
+                                                            disabled={isDrawing}
+                                                            className={`relative flex flex-col items-center justify-center text-3xl lg:text-4xl font-bold h-16 lg:h-20 rounded-full shadow-sm transition-all ${color} hover:scale-105 active:scale-95`}
+                                                            aria-label={`Winner ${id}, prize ${prizeId}. Click to invalidate.`}
+                                                        >
+                                                            {fromRedraw && <span className="text-xs font-black leading-none -mb-1 text-white" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.7)' }}>재추첨</span>}
+                                                            <span>{id}</span>
+                                                        </button>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <div className="col-span-full flex items-center justify-center h-24">
+                                                    <p className="text-xl lg:text-2xl text-gray-500">모든 당첨자가 무효 처리되었습니다.</p>
+                                                </div>
                                             )}
-                                        </button>
-                                    ))}
-                                </div>
+                        
+                                            {/* Invalidated Winners Section */}
+                                            {invalidatedWinners.length > 0 && (
+                                                <>
+                                                    <div className="text-center my-4">
+                                                        <h3 className="inline-block bg-rose-100 text-rose-600 text-2xl font-bold font-yeon-sung py-2 px-8 rounded-full shadow border border-rose-200">
+                                                            <span role="img" aria-label="down arrow" className="mr-2">👇</span>
+                                                            무효 번호
+                                                            <span role="img" aria-label="down arrow" className="ml-2">👇</span>
+                                                        </h3>
+                                                    </div>
+                                                    <div className="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 gap-2">
+                                                        {invalidatedWinners.map(({id, prizeId, redrawn, fromRedraw, invalidated}) => (
+                                                            <button 
+                                                                key={id} 
+                                                                onClick={() => handleToggleWinnerValidity(prizeId, id)}
+                                                                disabled={isDrawing || (invalidated && redrawn)}
+                                                                className={`relative flex flex-col items-center justify-center text-3xl lg:text-4xl font-bold h-16 lg:h-20 rounded-full shadow-sm transition-all bg-gray-300 text-gray-600 ${!(invalidated && redrawn) ? 'hover:bg-gray-400' : ''} disabled:cursor-not-allowed disabled:opacity-70`}
+                                                                aria-label={`Invalidated Winner ${id}, prize ${prizeId}. Click to re-validate.`}
+                                                            >
+                                                                {fromRedraw && <span className="text-xs font-black leading-none -mb-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>재추첨</span>}
+                                                                <span className={redrawn ? 'line-through' : ''}>{id}</span>
+                                                                {redrawn && <span className="absolute text-xs bottom-2 font-bold text-red-600">교체됨</span>}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+                                                </>
+                                            )}
+                                        </>
+                                    )
+                                })()
                              ) : (
                                 <div className="col-span-full flex items-center justify-center h-full">
                                     <p className="text-xl lg:text-2xl text-gray-500">아직 당첨자가 없습니다.</p>
