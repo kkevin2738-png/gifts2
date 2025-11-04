@@ -1,4 +1,3 @@
-
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 
 // --- Configuration ---
@@ -10,12 +9,12 @@ const INITIAL_PRIZES_CONFIG = [
 ];
 
 const DRAW_OPTIONS = [1, 2, 3, 4, 5, 10];
-const PRIZE_COLORS = ['bg-yellow-500 text-white', 'bg-sky-500 text-white', 'bg-rose-500 text-white', 'bg-lime-500 text-white'];
+const PRIZE_COLORS = ['bg-rose-500 text-white', 'bg-violet-500 text-white', 'bg-teal-500 text-white', 'bg-amber-500 text-white'];
 const DRAW_BUTTON_COLORS = [
-    'bg-yellow-500 hover:bg-yellow-600',
-    'bg-sky-500 hover:bg-sky-600',
     'bg-rose-500 hover:bg-rose-600',
-    'bg-lime-500 hover:bg-lime-600',
+    'bg-violet-500 hover:bg-violet-600',
+    'bg-teal-500 hover:bg-teal-600',
+    'bg-amber-500 hover:bg-amber-600',
 ];
 
 
@@ -48,11 +47,11 @@ const SpeechBubble: React.FC = () => (
                 <circle cx="20" cy="108" r="3" fill="black" fillOpacity="0.1"/>
                 <circle cx="15" cy="113" r="2" fill="black" fillOpacity="0.1"/>
             </g>
-            <path d="M10,20 C0,20,0,45,15,50 C10,60,20,70,30,70 C40,80,60,85,75,80 C90,85,110,80,120,70 C130,65,145,55,140,40 C145,25,130,10,115,15 C100,5,80,10,65,15 C50,10,30,5,20,15 C10,20,10,20,10,20Z" fill="white" stroke="#f472b6" strokeWidth="4" />
-            <path d="M30,68 C25,78,20,88,23,93 C27,98,37,88,33,82Z" fill="white" stroke="#f472b6" strokeWidth="4" />
-            <circle cx="24" cy="97" r="5" fill="white" stroke="#f472b6" strokeWidth="3"/>
-            <circle cx="19" cy="107" r="3" fill="white" stroke="#f472b6" strokeWidth="2"/>
-            <circle cx="14" cy="112" r="2" fill="white" stroke="#f472b6" strokeWidth="1.5"/>
+            <path d="M10,20 C0,20,0,45,15,50 C10,60,20,70,30,70 C40,80,60,85,75,80 C90,85,110,80,120,70 C130,65,145,55,140,40 C145,25,130,10,115,15 C100,5,80,10,65,15 C50,10,30,5,20,15 C10,20,10,20,10,20Z" fill="white" stroke="#ec4899" strokeWidth="4" />
+            <path d="M30,68 C25,78,20,88,23,93 C27,98,37,88,33,82Z" fill="white" stroke="#ec4899" strokeWidth="4" />
+            <circle cx="24" cy="97" r="5" fill="white" stroke="#ec4899" strokeWidth="3"/>
+            <circle cx="19" cy="107" r="3" fill="white" stroke="#ec4899" strokeWidth="2"/>
+            <circle cx="14" cy="112" r="2" fill="white" stroke="#ec4899" strokeWidth="1.5"/>
 
             <path d="M25,15 L28,22 L35,23 L30,27 L32,34 L25,30 L18,34 L20,27 L15,23 L22,22 Z" fill="#FBBF24" stroke="white" strokeWidth="1.5"/>
             <path d="M125,60 L127,65 L132,65 L128,68 L129,73 L125,70 L121,73 L122,68 L118,65 L123,65 Z" fill="#FBBF24" stroke="white" strokeWidth="1.5" transform="scale(0.7) translate(30,15)"/>
@@ -60,7 +59,7 @@ const SpeechBubble: React.FC = () => (
             <path d="M 120 15 L 125 25" stroke="#FBBF24" strokeWidth="4" strokeLinecap="round" />
             <path d="M 130 10 L 135 20" stroke="#FBBF24" strokeWidth="4" strokeLinecap="round" />
 
-            <text x="75" y="52" fontFamily="'Noto Sans KR', sans-serif" fontSize="20" fontWeight="bold" fill="#e11d48" textAnchor="middle">
+            <text x="75" y="52" fontFamily="'Noto Sans KR', sans-serif" fontSize="20" fontWeight="bold" fill="#c026d3" textAnchor="middle">
                 Click Me!
             </text>
         </svg>
@@ -313,9 +312,9 @@ const App: React.FC = () => {
             <div className="w-full max-w-screen-2xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6 flex-grow">
                 {/* Left Column */}
                 <div className="md:col-span-1 flex flex-col md:justify-center gap-4 lg:gap-6">
-                    <div className="w-full p-4 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/60 flex flex-col">
+                    <div className="w-full p-4 bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl border border-white/60 flex flex-col">
                         <div className="relative flex justify-center mb-6">
-                            <h3 className="text-4xl font-bold text-gray-800 font-yeon-sung relative -left-4 lg:-left-5">
+                            <h3 className="text-4xl font-bold text-gray-800 font-yeon-sung relative -left-4 lg:-left-5 text-shadow">
                                 경 품 리 스 트
                             </h3>
                             <button onClick={handleTogglePrizeEdit} disabled={isDrawing} className={`absolute top-1/2 -translate-y-1/2 right-0 flex-shrink-0 text-sm font-bold py-1 px-4 rounded-lg transition-colors ${isEditingPrizes ? 'bg-green-500 hover:bg-green-600 text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-700'} disabled:opacity-50 disabled:cursor-not-allowed`}>
@@ -329,7 +328,7 @@ const App: React.FC = () => {
                                 const redrawableWinnerCount = prize.winners.filter(w => w.invalidated && !w.redrawn).length;
                                 const remainingCount = Math.max(0, prize.total - validWinnerCount);
                                 return (
-                                   <li key={prize.id} className={`flex items-center gap-3 p-2 lg:p-3 rounded-lg bg-gray-100/60`}>
+                                   <li key={prize.id} className={`flex items-center gap-3 p-2 lg:p-3 rounded-lg bg-white/50`}>
                                      <div className={`flex-shrink-0 flex items-center justify-center w-10 h-10 rounded-full font-bold text-lg ${prizeColorClass}`}>
                                         {index + 1}
                                      </div>
@@ -362,7 +361,7 @@ const App: React.FC = () => {
                                                         재추첨
                                                     </button>
                                                 )}
-                                                <div className={`flex items-center justify-center text-xl font-bold h-10 w-16 rounded-full shadow-sm ${prizeColorClass}`}>
+                                                <div className={`flex items-center justify-center text-xl font-bold h-10 px-4 rounded-full shadow-md ${prizeColorClass}`}>
                                                   {remainingCount}개
                                                 </div>
                                             </div>
@@ -400,7 +399,7 @@ const App: React.FC = () => {
                             )}
                         </div>
 
-                        <div className="w-full p-4 bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-white/60 flex flex-col flex-grow">
+                        <div className="w-full p-4 bg-white/60 backdrop-blur-md rounded-2xl shadow-2xl border border-white/60 flex flex-col flex-grow">
                              <div className="flex gap-4 h-full flex-grow">
                                 <div className="w-1/2 flex flex-col gap-2">
                                     {currentPrizesForSelection.map(prize => {
@@ -409,7 +408,7 @@ const App: React.FC = () => {
                                         return (
                                             <div key={prize.id} 
                                                  onClick={() => !isEditingPrizes && setSelectedPrizeId(prize.id)}
-                                                 className={`relative w-full rounded-lg transition-all border p-3 text-center ${isEditingPrizes ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer'} ${selectedPrizeId === prize.id && !isEditingPrizes ? 'bg-yellow-100 border-2 border-pink-400 shadow-inner' : 'bg-white hover:bg-gray-50 border-gray-200'}`}>
+                                                 className={`relative w-full rounded-lg transition-all p-3 text-center ${isEditingPrizes ? 'cursor-not-allowed bg-gray-50' : 'cursor-pointer'} ${selectedPrizeId === prize.id && !isEditingPrizes ? 'bg-pink-50 ring-2 ring-pink-400 shadow-lg scale-105' : 'bg-white hover:bg-gray-50 border border-gray-200 hover:scale-102'}`}>
                                                 <p className="font-bold text-lg">{prize.name}</p>
                                                 <p className="text-sm text-gray-600">({remainingCount}/{prize.total} 남음)</p>
                                             </div>
@@ -419,7 +418,7 @@ const App: React.FC = () => {
                                 <div className="w-1/2 flex flex-col">
                                     <div className="flex-grow">
                                     {isEditingPrizes ? (
-                                        <div className="w-full bg-gray-100 rounded-lg flex items-center justify-center text-center text-gray-500 font-medium h-full p-4">
+                                        <div className="w-full bg-gray-100/80 rounded-lg flex items-center justify-center text-center text-gray-500 font-medium h-full p-4">
                                             수정 완료 후<br/>추첨 가능합니다
                                         </div>
                                     ) : selectedPrizeId ? (
@@ -432,7 +431,7 @@ const App: React.FC = () => {
                                                 {DRAW_OPTIONS.map(count => {
                                                     const drawButtonColor = selectedPrizeIndex !== -1 ? DRAW_BUTTON_COLORS[selectedPrizeIndex % DRAW_BUTTON_COLORS.length] : 'bg-gray-300';
                                                     return (
-                                                         <button key={count} onClick={() => handleDraw(count)} disabled={!canDraw || isDrawing} className={`p-2 text-white font-bold text-xl rounded-lg transition-colors disabled:bg-gray-300 disabled:cursor-not-allowed ${drawButtonColor}`}>
+                                                         <button key={count} onClick={() => handleDraw(count)} disabled={!canDraw || isDrawing} className={`p-2 text-white font-bold text-xl rounded-lg transition-transform transform hover:scale-105 disabled:bg-gray-300 disabled:cursor-not-allowed ${drawButtonColor}`}>
                                                             {count}개 뽑기
                                                         </button>
                                                     )
@@ -440,7 +439,7 @@ const App: React.FC = () => {
                                             </div>
                                         )
                                     ) : (
-                                        <div className="w-full bg-gray-100 rounded-lg flex items-center justify-center text-center text-gray-500 font-medium h-full p-4">
+                                        <div className="w-full bg-gray-100/80 rounded-lg flex items-center justify-center text-center text-gray-500 font-medium h-full p-4">
                                             경품을 선택하세요
                                         </div>
                                     )}
@@ -453,30 +452,30 @@ const App: React.FC = () => {
 
                 {/* Right Column */}
                 <div className="md:col-span-2 flex flex-col gap-4 lg:gap-6">
-                    <header className="w-full flex flex-col items-center text-center bg-white/80 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-white/60">
-                        <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-800">
+                    <header className="w-full flex flex-col items-center text-center bg-white/60 backdrop-blur-md p-3 rounded-2xl shadow-2xl border border-white/60">
+                        <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-gray-800 text-shadow-md">
                             2025년 부산광역시 응급의료 유관기관 워크숍
                         </h1>
-                        <p className="text-2xl md:text-3xl lg:text-4xl font-black text-pink-500 mt-2">
+                        <p className="text-2xl md:text-3xl lg:text-4xl font-black text-pink-500 mt-2 text-shadow">
                             <span role="img" aria-label="선물 아이콘" className="mr-2">🎁</span>
                             경품 추첨
                             <span role="img" aria-label="선물 아이콘" className="ml-2">🎁</span>
                         </p>
                     </header>
-                    <div className="bg-white/80 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/60 flex flex-col flex-grow">
+                    <div className="bg-white/60 backdrop-blur-md p-4 rounded-2xl shadow-2xl border border-white/60 flex flex-col flex-grow">
                         <div className="text-center mb-2 pb-3 border-b-2 border-pink-200">
-                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-800 relative -left-3">🏆 당첨자 현황</h2>
+                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-800 relative -left-3 text-shadow">🏆 당첨자 현황</h2>
                         </div>
                         <div className="flex justify-around items-center mb-4 p-2 flex-wrap gap-2">
-                             <div className="p-4 rounded-lg bg-pink-100 text-center min-w-[130px] lg:min-w-[160px]">
+                             <div className="p-4 rounded-lg bg-pink-100 text-center min-w-[130px] lg:min-w-[160px] shadow-lg border border-pink-200 transition-transform hover:scale-105">
                                  <div className="text-xl font-bold text-pink-800">당첨</div>
                                  <div className="text-3xl lg:text-4xl font-black text-pink-600">{totalValidWinnersCount} / {totalPrizeCount}</div>
                              </div>
-                             <div className="p-4 rounded-lg bg-sky-100 text-center min-w-[130px] lg:min-w-[160px]">
+                             <div className="p-4 rounded-lg bg-sky-100 text-center min-w-[130px] lg:min-w-[160px] shadow-lg border border-sky-200 transition-transform hover:scale-105">
                                  <div className="text-xl font-bold text-sky-800">남은 인원</div>
                                  <div className="text-3xl lg:text-4xl font-black text-sky-600">{participantsCount - allDrawnNumbers.length}</div>
                              </div>
-                              <div className="p-4 rounded-lg bg-gray-100 text-center min-w-[130px] lg:min-w-[160px]">
+                              <div className="p-4 rounded-lg bg-gray-100 text-center min-w-[130px] lg:min-w-[160px] shadow-lg border border-gray-200 transition-transform hover:scale-105">
                                  <div className="text-xl font-bold text-gray-800">총 인원</div>
                                  {isEditingParticipants ? (
                                     <input
@@ -509,10 +508,10 @@ const App: React.FC = () => {
                                                             key={id} 
                                                             onClick={() => handleToggleWinnerValidity(prizeId, id)}
                                                             disabled={isDrawing}
-                                                            className={`relative flex flex-col items-center justify-center text-3xl lg:text-4xl font-bold h-16 lg:h-20 rounded-full shadow-sm transition-all ${color} hover:scale-105 active:scale-95`}
+                                                            className={`relative flex flex-col items-center justify-center text-3xl lg:text-4xl font-bold h-16 lg:h-20 rounded-full shadow-lg transition-all ${color} hover:scale-110 hover:shadow-xl active:scale-95`}
                                                             aria-label={`Winner ${id}, prize ${prizeId}. Click to invalidate.`}
                                                         >
-                                                            {fromRedraw && <span className="text-xs font-black leading-none -mb-1 text-white" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.7)' }}>재추첨</span>}
+                                                            {fromRedraw && <span className="absolute text-lg -top-0.5 font-bold leading-none text-white" style={{ textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000' }}>재추첨</span>}
                                                             <span>{id}</span>
                                                         </button>
                                                     ))}
@@ -539,12 +538,12 @@ const App: React.FC = () => {
                                                                 key={id} 
                                                                 onClick={() => handleToggleWinnerValidity(prizeId, id)}
                                                                 disabled={isDrawing || (invalidated && redrawn)}
-                                                                className={`relative flex flex-col items-center justify-center text-3xl lg:text-4xl font-bold h-16 lg:h-20 rounded-full shadow-sm transition-all bg-gray-300 text-gray-600 ${!(invalidated && redrawn) ? 'hover:bg-gray-400' : ''} disabled:cursor-not-allowed disabled:opacity-70`}
+                                                                className={`relative flex flex-col items-center justify-center text-3xl lg:text-4xl font-bold h-16 lg:h-20 rounded-full shadow-md transition-all bg-gray-300 text-gray-600 ${!(invalidated && redrawn) ? 'hover:bg-gray-400 hover:shadow-lg' : ''} disabled:cursor-not-allowed disabled:opacity-70`}
                                                                 aria-label={`Invalidated Winner ${id}, prize ${prizeId}. Click to re-validate.`}
                                                             >
-                                                                {fromRedraw && <span className="text-xs font-black leading-none -mb-1" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.3)' }}>재추첨</span>}
+                                                                {fromRedraw && <span className="text-base font-bold leading-none mb-0.5 text-white" style={{ textShadow: '-1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000' }}>재추첨</span>}
                                                                 <span className={redrawn ? 'line-through' : ''}>{id}</span>
-                                                                {redrawn && <span className="absolute text-xs bottom-2 font-bold text-red-600">교체됨</span>}
+                                                                {redrawn && <span className="absolute text-lg bottom-1.5 font-black text-red-800" style={{ textShadow: '0 1px 2px rgba(255,255,255,0.7)' }}>교체됨</span>}
                                                             </button>
                                                         ))}
                                                     </div>
@@ -568,7 +567,7 @@ const App: React.FC = () => {
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={closeModal}>
                     <div className="relative bg-white rounded-3xl shadow-2xl p-6 max-w-4xl w-full transform transition-all animate-in fade-in-0 zoom-in-90 duration-300 overflow-hidden" onClick={(e) => e.stopPropagation()}>
                         <Confetti />
-                        <h2 className="text-4xl text-center font-black text-pink-500 mb-4 z-10 relative">🎉 축하합니다! 🎉</h2>
+                        <h2 className="text-5xl text-center font-black text-pink-500 mb-4 z-10 relative text-shadow-md">🎉 축하합니다! 🎉</h2>
                         
                         <div className="flex flex-col items-center justify-center z-10 relative">
                             <div className="flex flex-wrap justify-center items-center gap-6 p-6 min-h-[15rem]">

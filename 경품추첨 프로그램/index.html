@@ -19,7 +19,7 @@
       }
       body {
         font-family: 'Noto Sans KR', sans-serif;
-        background: linear-gradient(-45deg, #fce4ec, #e3f2fd, #e8eaf6, #f3e5f5);
+        background: linear-gradient(-45deg, #fde4ea, #e3e8ff, #d8f3dc, #fff1e6);
         background-size: 400% 400%;
         animation: gradient-animation 20s ease infinite;
       }
@@ -29,6 +29,9 @@
       .font-yeon-sung {
         font-family: 'Yeon Sung', cursive;
       }
+      .text-shadow { text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+      .text-shadow-md { text-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+      .text-shadow-lg { text-shadow: 0 10px 20px rgba(0,0,0,0.2); }
       
       /* --- Start Shake Animation --- */
       @keyframes shake {
@@ -73,6 +76,7 @@
         left: 0;
         pointer-events: none;
         overflow: hidden;
+        z-index: 10;
       }
 
       .confetti-piece {
